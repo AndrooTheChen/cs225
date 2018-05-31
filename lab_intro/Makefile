@@ -4,7 +4,7 @@ OBJS = main.o PNG.o HSLAPixel.o lodepng.o lab_intro.o
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
 LD = clang++
-LDFLAGS = -std=c++1y -stdlib=libc++ -lpthread -lm
+LDFLAGS = -std=c++1y -stdlib=libc++ -lpthread -lm 
 #-lc++abi
 
 all : $(EXENAME)

@@ -28,7 +28,7 @@ HSLAPixel::HSLAPixel(double hue, double saturation, double luminance) {
 
 HSLAPixel::HSLAPixel(double hue, double saturation, double luminance, double alpha) {
     h = hue;
-    s = saturatoin;
+    s = saturation;
     l = luminance;
     a = alpha;
 }
