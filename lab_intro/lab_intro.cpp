@@ -55,12 +55,18 @@ PNG grayscale(PNG image) {
  * @return The image with a spotlight.
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
-  int dist;
+  int dist, distX, distY;
   for (unsigned int x = 0; x < image.width(); x++) {
       for (unsigned int y = 0; y < image.height(); y++) {
         HSLAPixel & pixel = image.getPixel(x, y);
-        dist = sqrt((x-centerX)^2 + (y-centerY)^2);
-        pixel.h = pixel.h * (1-(.005*dist));
+        distX = x - centerX;
+        distY = y - centerY;
+        dist = sqrt(pow(abs(distX), 2) + pow(abs(distY),2));
+        if (dist >= 160) {
+          pixel.l *= .2;
+        } else {
+          pixel.l *= 1-.005*dist;
+        }
       }
   }
   return image;
@@ -82,10 +88,11 @@ PNG illinify(PNG image) {
   for (unsigned int x = 0; x < image.width(); x++) {
     for (unsigned int y = 0; y < image.height(); y++) {
       HSLAPixel & pixel = image.getPixel(x, y);
-      if (pixel.h >= 114 || pixel.h < 294)
-	pixel.h = 216;
-      else
-	pixel.h = 11;
+      if (pixel.h >= 139 && pixel.h < 294) {
+	       pixel.h = 216;
+      } else {
+	       pixel.h = 11;
+      }
     }
   }
   return image;
