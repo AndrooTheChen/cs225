@@ -13,29 +13,27 @@ PNG* setupOutput(unsigned w, unsigned h) {
 
 // Returns my favorite color
 HSLAPixel* myFavoriteColor(double saturation) {
-    HSLAPixel pixel(-1, saturation, 0.5);
+    HSLAPixel pixel(183, saturation, 0.5);
     return &pixel;
 }
 
 void sketchify(std::string inputFile, std::string outputFile) {
     // Load in.png
-    PNG* original = NULL;
-
+    PNG* original = new PNG();
     original->readFromFile(inputFile);
     unsigned width = original->width();
     unsigned height = original->height();
-
     // Create out.png
-    PNG* output;
-    setupOutput(width, height);
+    PNG* output = setupOutput(width, height);
 
     // Load our favorite color to color the outline
     HSLAPixel* myPixel = myFavoriteColor(0.5);
 
     // Go over the whole image, and if a pixel differs from that to its upper
     // left, color it my favorite color in the output
-    for (unsigned y = 1; 0 < y < height; y++) {
-        for (unsigned x = 1; 0 < x < width; x++) {
+    for (unsigned y = 1; y < height; y++) {
+	//cout << "Beginning of inner loop" << endl;
+        for (unsigned x = 1; x < width; x++) {
             // Calculate the pixel difference
             HSLAPixel & prev = original->getPixel(x - 1, y - 1);
             HSLAPixel & curr = original->getPixel(x, y);
@@ -45,8 +43,12 @@ void sketchify(std::string inputFile, std::string outputFile) {
             // color the output pixel with my favorite color
             HSLAPixel * currOutPixel = &(output->getPixel(x, y));
             if (diff > 20) {
-                currOutPixel = myPixel;
+                //currOutPixel = myPixel;
+                currOutPixel->h = myPixel->h;
+                currOutPixel->s = myPixel->s;
+                currOutPixel->l = myPixel->l;
             }
+	    //cout << "End of inner loop"<< endl;
         }
     }
 
@@ -54,7 +56,7 @@ void sketchify(std::string inputFile, std::string outputFile) {
     output->writeToFile(outputFile);
 
     // Clean up memory
-    delete myPixel;
+    //delete myPixel;
     delete output;
     delete original;
 }
