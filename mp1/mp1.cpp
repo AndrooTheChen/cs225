@@ -7,28 +7,32 @@ using namespace cs225;
 
 void rotate(std::string inputFile, std::string outputFile) {
   // Part 2
-  PNG * inFile = NULL;
+  PNG * inFile = new PNG();
 
   inFile->readFromFile(inputFile);
   unsigned width = inFile->width();
   unsigned height = inFile->height();
 
-  PNG * outFile = new PNG(width, height);
+  PNG * output = new PNG(width, height);
 
-  int newX, newY;
-  for(int x = 0; x < width; x++) {
-    for(int y = 0; y < height; y++) {
-      HSLAPixel * currInPixel = &(inFile->getPixel(x, y));
+  unsigned int newX, newY;
+  for(unsigned int y = 0; y < height; y++) {
+    for(unsigned int x = 0; x < width; x++) {
+      HSLAPixel * currInPixel = inFile->getPixel(x, y);
       
-      newX = width - x;
-      newY = height - y;
+      newX = width - x - 1;
+      newY = height - y - 1;
 
-      HSLAPixel * currOutPixel = &(outFile->getPixel(newX, newY));
+      HSLAPixel * currOutPixel = output->getPixel(newX, newY);
+      currOutPixel->h = currInPixel->h;
+      currOutPixel->s = currInPixel->s;
+      currOutPixel->l = currInPixel->l;
     }
   }
 
-  outFile->writeToFile(outputFile);
-
+  output->writeToFile(outputFile);
+  delete inFile;
+  delete output;
 }
 
 PNG myArt(unsigned int width, unsigned int height) {
