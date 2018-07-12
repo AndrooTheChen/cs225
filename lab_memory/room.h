@@ -32,7 +32,7 @@ class Room
     int max_letters;
 
     /** An array of Letters currently allocated */
-    Letter* letters;
+    Letter* letters = NULL;
 
     /** The number of valid Letters in the Letters array */
     int letterCount;
