@@ -19,16 +19,16 @@ class Flower : public Drawable
     Shape pistil; // center piece of flower
     Shape leaf;
   */
-    Rectangle stem;
-    Circle pistil;
-    Triangle leaf;
+    Shape * stem;
+    Shape * pistil;
+    Shape * leaf;
 
     void drawPetals(PNG* canvas, const Vector2& center, int x, int y) const;
-
+    void clear();
   public:
     Flower(const Vector2& center);
-    Flower& operator=(const Flower& rhs);
     void draw(PNG* canvas) const;
+    ~Flower();
 };
 
 #endif // FLOWER_H_
