@@ -82,3 +82,12 @@ void Flower::draw(PNG* canvas) const
         drawPetals(canvas, pistil.center(), x, y);
     }
 }
+
+Flower& Flower::operator=(const Flower& rhs)
+{
+    stem = Rectangle(rhs.stem);
+    pistil = Circle(rhs.pistil);
+    leaf = Triangle(rhs.leaf);
+
+    return *this;
+}

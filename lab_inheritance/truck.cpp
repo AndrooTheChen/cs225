@@ -144,11 +144,11 @@ void Truck::clear()
 
 void Truck::draw(PNG* canvas)const
 {
-    trailer.draw(&canvas);
-    cabin.draw(&canvas);
-    window.draw(&canvas);
-    engine.draw(&canvas);
+    trailer->draw(canvas);
+    cabin->draw(canvas);
+    window->draw(canvas);
+    engine->draw(canvas);
     for (int i = 0; i < NUM_WHEELS; i++) {
-        wheels[i].draw(&canvas);
+        wheels[i]->draw(canvas);
     }
 }
