@@ -120,6 +120,8 @@ void Image::rotateColor(double degrees) {
             //pixel.h = ((int)(degrees+pixel.h)) % 361;
             if (pixel.h+degrees > 360) {
                 pixel.h = (pixel.h+degrees)-360;
+            } else if (pixel.h+degrees < 0) {
+                pixel.h = (pixel.h+degrees)+360;
             } else {
                 pixel.h = pixel.h+degrees;
             }
@@ -142,9 +144,9 @@ void Image::illinify() {
 
 void Image::scale(double factor) {
     if (factor == 1.0) return;
-    unsigned int currWidth = this->width();
-    unsigned int currHeight = this->height();
-    this->resize(factor*this->width(), factor*this->height();
+    unsigned int newWidth = this->width() * factor;
+    unsigned int newHeight = this->height() * factor;
+    this->resize(newWidth, newHeight);
 }
 
 void Image::scale(unsigned w, unsigned h) {
