@@ -19,6 +19,8 @@ public:
     void darken (double amount);
     void saturate();
     void saturate(double amount);
+    void desaturate();
+    void desaturate(double amount);
     void grayscale();
     void rotateColor(double degrees);
     void illinify();
