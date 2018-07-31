@@ -296,21 +296,25 @@ void Image::scale(double factor) {
                 }
                 newX++;
             } else {
-                newX = x*factor;
-                HSLAPixel & oldPixel = original->getPixel(x, y);
-                HSLAPixel & newPixel = this->getPixel(newX, y);
-                newPixel.h = oldPixel.h;
-                newPixel.s = oldPixel.s;
-                newPixel.l = oldPixel.l;
-                while (x*factor == newX && x < oldWidth) { x++; }
+                while (x*factor == newX && x < oldWidth) { 
+                    newX = x*factor;
+                    HSLAPixel & oldPixel = original->getPixel(x, y);
+                    HSLAPixel & newPixel = this->getPixel(newX, y);
+                    newPixel.h = oldPixel.h;
+                    newPixel.s = oldPixel.s;
+                    newPixel.l = oldPixel.l;
+                    x++; 
+                }
                 
-                newY = y*factor;
-                HSLAPixel & oldPixel = original->getPixel(x, y);
-                HSLAPixel & newPixel = this->getPixel(x, newY);
-                newPixel.h = oldPixel.h;
-                newPixel.s = oldPixel.s;
-                newPixel.l = oldPixel.l;
-                while (y*factor == newY && y < oldHeight) { y++; }
+                while (y*factor == newY && y < oldHeight) { 
+                    newY = y*factor;
+                    HSLAPixel & oldPixel = original->getPixel(x, y);
+                    HSLAPixel & newPixel = this->getPixel(x, newY);
+                    newPixel.h = oldPixel.h;
+                    newPixel.s = oldPixel.s;
+                    newPixel.l = oldPixel.l;
+                    y++;
+                }
             }
         }
         newX = 0;
