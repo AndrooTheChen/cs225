@@ -153,12 +153,10 @@ void Image::scale(double factor) {
     for (unsigned int y = 0; y < oldHeight; y++) {
         for (unsigned int x = 0; x < oldWidth; x++) {
             if (factor > 1.0) {
-                unsigned int tempY = y*factor;
-                while (tempY < factor*(y+1) && factor*(y+1) < this->height()) {
-                    unsigned int tempX = x*factor;
-                    while (tempX < factor*(x+1) && factor*(x+1) < this->width()) {
+                for (unsigned int tempY = y*factor; tempY < (y+1)*factor; tempY++) {
+                    for (unsigned int tempX = x*factor; tempX < (x+1)*factor; tempX++) {
                         HSLAPixel & oldPixel = original->getPixel(x, y);
-                        HSLAPixel & newPixel = this->getPixel(tempX++, tempY++);
+                        HSLAPixel & newPixel = this->getPixel(tempX, tempY);
 
                         newPixel.h = oldPixel.h;
                         newPixel.s = oldPixel.s;
