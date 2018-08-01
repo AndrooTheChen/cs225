@@ -149,8 +149,9 @@ void Image::scale(double factor) {
     unsigned int oldWidth = this->width(), oldHeight = this->height();
     this->resize(factor*oldWidth, factor*oldHeight);
 
-    unsigned int newX = 0, newY = 0;
+    unsigned int newX, newY;
     for (unsigned int y = 0; y < oldHeight; y++) {
+        newY = y*factor;
         for (unsigned int x = 0; x < oldWidth; x++) {
             if (factor > 1.0) {
                 for (unsigned int tempY = y*factor; tempY < (y+1)*factor; tempY++) {
@@ -164,29 +165,19 @@ void Image::scale(double factor) {
                     }
                 }
             } else {
-                while (x*factor == newX && x < oldWidth) { 
-                    newX = x*factor;
-                    HSLAPixel & oldPixel = original->getPixel(x, y);
-                    HSLAPixel & newPixel = this->getPixel(newX, y);
-                    newPixel.h = oldPixel.h;
-                    newPixel.s = oldPixel.s;
-                    newPixel.l = oldPixel.l;
-                    x++; 
-                }
-                
-                while (y*factor == newY && y < oldHeight) { 
-                    newY = y*factor;
-                    HSLAPixel & oldPixel = original->getPixel(x, y);
-                    HSLAPixel & newPixel = this->getPixel(x, newY);
-                    newPixel.h = oldPixel.h;
-                    newPixel.s = oldPixel.s;
-                    newPixel.l = oldPixel.l;
-                    y++;
-                }
+                newX = x*factor;
+                HSLAPixel & oldPixel = original->getPixel(x, y);
+                HSLAPixel & newPixel = this->getPixel(newX, newY);
+                newPixel.h = oldPixel.h;
+                newPixel.s = oldPixel.s;
+                newPixel.l = oldPixel.l;
+                while (x*factor == newX) { x++; }
             }
         }
-        newX = 0;
-        newY++;
+        if (factor < 1.0) {
+            newX = 0;
+            while (y*factor == newY) { y++; }
+        }
     }
 }
 
