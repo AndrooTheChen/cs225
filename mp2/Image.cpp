@@ -159,18 +159,14 @@ void Image::scale(double factor) {
                         HSLAPixel & oldPixel = original->getPixel(x, y);
                         HSLAPixel & newPixel = this->getPixel(tempX, tempY);
 
-                        newPixel.h = oldPixel.h;
-                        newPixel.s = oldPixel.s;
-                        newPixel.l = oldPixel.l;
+                        newPixel = oldPixel;
                     }
                 }
             } else {
                 newX = x*factor;
                 HSLAPixel & oldPixel = original->getPixel(x, y);
                 HSLAPixel & newPixel = this->getPixel(newX, newY);
-                newPixel.h = oldPixel.h;
-                newPixel.s = oldPixel.s;
-                newPixel.l = oldPixel.l;
+                newPixel = oldPixel;
                 while (x*factor == newX) { x++; }
             }
         }
