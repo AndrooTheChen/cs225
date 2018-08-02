@@ -28,7 +28,10 @@ public:
 private:
     Image background_;
     unsigned size_;
-    Image * stickers_;
+    //Image * stickers_;
+    std::vector<Image *> stickers_;
+    std::vector<unsigned> xcoord_;
+    std::vector<unsigned> ycoord_;
     void copy_(const StickerSheet & other);
 };
 
