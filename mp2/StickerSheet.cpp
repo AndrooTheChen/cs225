@@ -3,6 +3,7 @@
 
 void StickerSheet::copy_(const StickerSheet & other) {
     // clear stickers_
+    delete background_;
     for (std::vector<Image *>::iterator it = stickers_.begin(); it != stickers_.end(); it++) {
         delete *it;
     }
@@ -17,11 +18,13 @@ void StickerSheet::copy_(const StickerSheet & other) {
 }
 
 StickerSheet::StickerSheet(const Image & picture, unsigned max) {
-    background_ = picture;
+    background_ = new Image();
+    background_ = &picture;
     size_ = max;
 }
 
 StickerSheet::~StickerSheet() {
+    delete background_;
     for (std::vector<Image *>::iterator it = stickers_.begin(); it != stickers_.end(); it++) {
         delete *it;
     }
@@ -39,11 +42,12 @@ const StickerSheet & StickerSheet::operator=(const StickerSheet & other) {
 bool StickerSheet::operator==(const StickerSheet & other) const {
     if (background_ != other.background_) { return false; }
     if (size_ != other.size_) { return false; }
-    for (int ctr = 0; ctr < size_; ctr++) {
+    for (unsigned ctr = 0; ctr < size_; ctr++) {
         Image & other_image = *(other.stickers_[ctr]);
         Image & this_image = *(stickers_[ctr]);
         if (other_image != this_image) { return false; }
     }
+    return true;
 }
 
 bool StickerSheet::operator!=(const StickerSheet & other) const {
@@ -56,7 +60,7 @@ void StickerSheet::changeMaxStickers(unsigned max) {
     size_ = max;
 
     std::vector<Image *>::iterator sticker = stickers_.end();
-    for (unsigned ctr = 0; ctr < diff; ctr++) {
+    for (int ctr = 0; ctr < diff; ctr++) {
         delete *sticker;
         sticker--;
 
@@ -66,17 +70,14 @@ void StickerSheet::changeMaxStickers(unsigned max) {
 }
 
 int StickerSheet::addSticker(Image & sticker, unsigned x, unsigned y) {
+    if (stickers_.size() == size_) { return -1; }
+
     xcoord_.push_back(x);
     ycoord_.push_back(y);
-    
-    int capacity = stickers_.size();
-    stickers_.push_back(&sticker);
-    if (capacity != stickers_.size()) {
-        return -1;
-    } else {
-        size_++;
-        return stickers_.size()-1;
-    }
+    Image * sticky = new Image();
+    sticky = &sticker;
+    stickers_.push_back(sticky);
+    return stickers_.size()-1;
 }
 
 bool StickerSheet::translate(unsigned index, unsigned x, unsigned y) {
@@ -91,7 +92,6 @@ void StickerSheet::removeSticker(unsigned index) {
     ycoord_.erase(ycoord_.begin()+(index-1));
     delete stickers_[index];
     stickers_.erase(stickers_.begin()+(index-1));
-    size_--;
 }
 
 Image * StickerSheet::getSticker(unsigned index) const {
@@ -99,18 +99,24 @@ Image * StickerSheet::getSticker(unsigned index) const {
 }
 
 Image StickerSheet::render() const {
-    Image sticky, output = background_;
-    for (int ctr = 0; ctr < size_; ctr++) {
+    Image sticky, output;
+    output = *background_;
+    for (unsigned ctr = 0; ctr < stickers_.size(); ctr++) {
+	      std::cout << "Copying sticker from sticker list" << std::endl;
         sticky = *getSticker(ctr);
-        for (unsigned int y = 0; y < sticky.height(); y++) {
-            for (unsigned int x = 0; x < sticky.width(); x++) {
+	      std::cout << "Copied sticker from sticker list" << std::endl;
+        int x_sticky = 0, y_sticky = 0;
+        for (unsigned int y = ycoord_[ctr]; y < ycoord_[ctr]+sticky.height(); y++) {
+            for (unsigned int x = xcoord_[ctr]; x < xcoord_[ctr]+sticky.width(); x++) {
                 HSLAPixel & pic_pixel = output.getPixel(x, y);
-                HSLAPixel & sticky_pixel = sticky.getPixel(x, y);
+                HSLAPixel & sticky_pixel = sticky.getPixel(x_sticky++, y_sticky);
+                if (sticky_pixel.a == 0) { continue; }
                 pic_pixel = sticky_pixel;
             }
+            x_sticky = 0;
+            y_sticky++;
         }
     }
-
+    std::cout << "render() complete " << std::endl;
     return output;
 }
-

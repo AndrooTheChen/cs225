@@ -10,13 +10,14 @@ using namespace cs225;
 TEST_CASE("A basic StickerSheet works", "[weight=5][part=2]") {
   Image alma; alma.readFromFile("tests/alma.png");
   Image i;    i.readFromFile("tests/i.png");
-
   StickerSheet sheet(alma, 5);
   sheet.addSticker(i, 20, 200);
+  sheet.render().writeToFile("part2test.png");
 
   Image expected;
   expected.readFromFile("tests/expected.png");
 
+  std::cout << "Test render()  " << std::endl;
   REQUIRE( sheet.render() == expected );
 }
 
@@ -259,4 +260,3 @@ TEST_CASE("StickerSheet's assignment operator makes an independent copy", "[weig
   REQUIRE( s1.render() == expected2 );
   REQUIRE( s2.render() == expected );
 }
-

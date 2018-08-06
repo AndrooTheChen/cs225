@@ -26,7 +26,7 @@ public:
     Image render() const;
 
 private:
-    Image background_;
+    const Image * background_;
     unsigned size_;
     //Image * stickers_;
     std::vector<Image *> stickers_;
@@ -37,4 +37,3 @@ private:
 
 
 #endif
- 
