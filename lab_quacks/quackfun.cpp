@@ -96,6 +96,7 @@ void scramble(queue<T>& q)
             i = 0;
             while (i < ctr && !q.empty()) {
                 temp = q.front();
+                q.pop();
                 s.push(temp);
                 i++;
             }
@@ -115,6 +116,7 @@ void scramble(queue<T>& q)
         }
         ctr++;
     }
+    q.swap(q2);
 }
 
 /**
