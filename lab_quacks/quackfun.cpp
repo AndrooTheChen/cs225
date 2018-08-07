@@ -25,9 +25,16 @@ namespace QuackFun {
 template <typename T>
 T sum(stack<T>& s)
 {
+    if (s.empty()) { return T(); }
+    T temp = s.top();
+    s.pop();
+    T output = temp + sum(s);
+    s.push(temp);
+    return output;
+
 
     // Your code here
-    return T(); // stub return value (0 for primitive types). Change this!
+    //return T(); // stub return value (0 for primitive types). Change this!
                 // Note: T() is the default value for objects, and 0 for
                 // primitive types
 }
@@ -49,9 +56,18 @@ T sum(stack<T>& s)
  */
 bool isBalanced(queue<char> input)
 {
+    std::stack<char> balance;
+    while (!input.empty()) {
+        if (input.front() == '[') {     // unsure of input order
+            balance.push(input.front());
+        } else if (input.front() == ']') {
+            if (balance.empty()) { return false; }
+            balance.pop();
+        }
+        input.pop();
+    }
 
-    // @TODO: Make less optimistic
-    return true;
+    return (balance.empty()) ? true: false;
 }
 
 /**
@@ -71,8 +87,34 @@ void scramble(queue<T>& q)
 {
     stack<T> s;
     // optional: queue<T> q2;
-
+    queue<T> q2;
     // Your code here
+    int i, ctr = 1;
+    T temp;
+    while (!q.empty()) {
+        if (ctr%2==0) {
+            i = 0;
+            while (i < ctr && !q.empty()) {
+                temp = q.front();
+                s.push(temp);
+                i++;
+            }
+            while (!s.empty()) {
+                temp = s.top();
+                q2.push(temp);
+                s.pop();
+            }
+        } else {
+            i = 0;
+            while (i < ctr && !q.empty()) {
+                temp = q.front();
+                q2.push(temp);
+                q.pop();
+                i++;
+            }
+        }
+        ctr++;
+    }
 }
 
 /**
@@ -94,12 +136,23 @@ template <typename T>
 bool verifySame(stack<T>& s, queue<T>& q)
 {
     bool retval = true; // optional
-    // T temp1; // rename me
-    // T temp2; // rename :)
-
+     T temp1; // rename me
+     T temp2; // rename :)
+    
     // Your code here
+    if (!s.empty()) {
+        temp1 = s.top();
+        s.pop();
+        retval = verifySame(s, q);
+        s.push(temp1);
+    }
 
+    if (temp1 != q.front()) { return false; }
+
+    temp2 = q.front();
+    q.pop();
+    retval = verifySame(s, q);
+    q.push(temp2);
+    
     return retval;
-}
-
 }
