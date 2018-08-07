@@ -142,21 +142,22 @@ bool verifySame(stack<T>& s, queue<T>& q)
      T temp2; // rename :)
     
     // Your code here
-    temp1 = s.top();
-    if (!s.empty()) {
+    if (s.empty()) { return true; }
+    else {
+        temp1 = s.top();
         s.pop();
         retval = verifySame(s, q);
+        temp2 = q.front();
+        q.pop();
+        q.push(temp2);
         s.push(temp1);
     }
 
-    if (temp1 != q.front()) { return false; }
-
-    temp2 = q.front();
-    q.pop();
-    retval = verifySame(s, q);
-    q.push(temp2);
+    if (temp1 != temp2) { return false; }
     
     return retval;
+
+    
 }
 
 }
