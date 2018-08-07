@@ -140,8 +140,8 @@ bool verifySame(stack<T>& s, queue<T>& q)
      T temp2; // rename :)
     
     // Your code here
+    temp1 = s.top();
     if (!s.empty()) {
-        temp1 = s.top();
         s.pop();
         retval = verifySame(s, q);
         s.push(temp1);
@@ -155,4 +155,6 @@ bool verifySame(stack<T>& s, queue<T>& q)
     q.push(temp2);
     
     return retval;
+}
+
 }
