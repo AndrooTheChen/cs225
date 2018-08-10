@@ -201,17 +201,21 @@ void BinaryTree<T>::printPaths(vector<vector<T> > &paths) const
 template <typename T>
 void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths) const
 {
-    //if (subRoot == NULL || subRoot->elem == -1) { return; }
-    if (subRoot == NULL) { return; }
-    v.push_back(subRoot->elem);
-    findPaths(subRoot->left, v, paths);
-    if (subRoot->left == NULL && subRoot->right == NULL) {
-        v.push_back(subRoot->elem);
-        //subRoot->elem = -1;
-        paths.push_back(v);
+    if (subRoot == NULL) { 
+        //if (!v.empty()) { v.pop_back(); }
         return;
     }
-    findPaths(subRoot->right, v, paths);
+
+    v.push_back(subRoot->elem);
+    if (subRoot->left != NULL) findPaths(subRoot->left, v, paths);
+    if (subRoot->right != NULL) { findPaths(subRoot->right, v, paths); }
+    
+    if (subRoot->left == NULL && subRoot ->right == NULL) {
+	paths.push_back(v);
+        v.pop_back();
+        return;
+    }
+    v.pop_back();
 }
 
 /**
