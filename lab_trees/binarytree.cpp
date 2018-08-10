@@ -225,17 +225,15 @@ template <typename T>
 int BinaryTree<T>::sumDistances() const
 {
     // your code here
-    int running_sum = 0;
-    int static total_sum = 0;
-    sumDistancesHelper(root, running_sum, total_sum);
-    return total_sum;
+    return sumDistancesHelper(root, total_sum);
 }
 
 template <typename T>
-void BinaryTree<T>::sumDistancesHelper(Node * subRoot, int rsum, int tsum) const
+int BinaryTree<T>::sumDistancesHelper(Node * subRoot int tsum) const
 {
-    if (subRoot == NULL) { return; }
-    tsum += rsum;
-    if (subRoot->left != NULL) sumDistancesHelper(subRoot->left, rsum+1, tsum);
-    if (subRoot->right != NULL) sumDistancesHelper(subRoot->right, rsum+1, tsum);
+    int static tsum = 0;
+    tsum += height(root);
+    if (subRoot->left != NULL) sumDistancesHelper(subRoot->left, tsum);
+    if (subRoot->right != NULL) sumDistancesHelper(subRoot->right, tsum);
+    return tsum;
 }
