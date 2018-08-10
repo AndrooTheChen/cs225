@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
 #include <sstream>
 #include "random.h"
 using namespace std;
@@ -208,6 +209,12 @@ class BinaryTree
      * @param treeVector stores nodes in order
      */
     void inOrder(Node *subRoot, vector<T>& treeVector);
+
+    void mirror(Node * subNode);
+    bool isOrderedIterative(Node * subRoot) const;
+    bool isOrderedRecursive(Node * subRoot) const;
+    void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths);
+    void BinaryTree<T>::sumDistances(Node * subRoot, int rsum, int tsum);
 
     Node* root;
 };

@@ -65,6 +65,12 @@ class InorderTraversal : public TreeTraversal<T> {
      */	
     void add(typename BinaryTree<T>::Node *& treeNode) {
       // your code here
+      if (treeNode->right != NULL) {
+        stack.push(treeNode->right);
+      }
+      if (treeNode->left != NULL) {
+        stack.push(treeNode->left);
+      }
       return;	
     }
 

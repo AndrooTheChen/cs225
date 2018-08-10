@@ -5,6 +5,7 @@
  */
 #include "TreeTraversals/InorderTraversal.h"
 #include <iostream>
+
 /**
  * @return The height of the binary tree. Recall that the height of a binary
  *  tree is just the length of the longest path from the root to a leaf, and
@@ -78,6 +79,29 @@ template <typename T>
 void BinaryTree<T>::mirror()
 {
     //your code here
+    mirror(root);
+}
+
+template <typename T>
+void BinaryTree<T>::mirror(Node * subNode)
+{
+    if (subNode == NULL) { return; }
+    mirror(subNode->left);
+    mirror(subNode->right);
+
+    // swap
+    if (subNode->left == NULL && subNode->right == NULL) { return; }
+    else if (subNode->left == NULL) {
+        subNode->left = subNode->right;
+        subNode->right = NULL;
+    } else if (subNode->right == NULL) {
+        subNode->right = subNode->left;
+        subNode->left = NULL;
+    } else {
+        Node * temp = subNode->left;
+        subNode->left = subNode->right;
+        subNode->right = temp;
+    }
 }
 
 /**
@@ -93,6 +117,34 @@ bool BinaryTree<T>::isOrderedIterative() const
     return false;
 }
 
+template <typename T>
+bool BinaryTree::isOrderedIterative(Node * subRoot) const
+{
+    std::vector<T> v;
+    std::stack<Node *> s;
+    Node * curr = subRoot;
+
+    s.push(curr);
+    curr = curr->left;
+    while (curr != NULL && !s.empty()) {
+        s.push(curr);
+        curr = curr->left;
+        while (curr == NULL && !s.empty()) {
+            Node * temp = s.top();
+            v.push_back(temp->elem);
+            s.pop();
+            curr = temp->right;
+        }
+    }
+
+    int i = 0;
+    for (int ctr = 0; ctr < v.size(); ctr++) {
+        if (v[i++] > v[ctr]) { return false; }
+    }
+
+    return true;
+}
+
 /**
  * isOrdered() function recursive version
  * @return True if an in-order traversal of the tree would produce a
@@ -104,7 +156,30 @@ bool BinaryTree<T>::isOrderedRecursive() const
 {
 
     // your code here
-    return false;
+    return isOrderedRecursive(root);
+}
+
+template <typename T>
+bool BinaryTree::isOrderedRecursive(Node * subRoot) const
+{
+    bool isOrdered = true;
+    if (subRoot == NULL) { return true; }
+
+    isOrdered = isOrderedRecursive(subRoot->left);
+
+    if (subRoot->left == NULL && subRoot->right == NULL) { return true; }
+    else if (subRoot->left == NULL) {
+        return (subRoot->right.elem <= this->elem) { return false; }
+    } else if (subRoot->right == NULL) {
+        if (subRoot->left.elem >= this->elem) { return false; }
+    } else {
+        if (subRoot->left.elem >= this->elem) { return false; }
+        if (subRoot->right.elem <= this->elem) { return false; }
+    }
+ 
+    isOrdered = isOrderedRecursive(subRoot->right);
+
+    return isOrdered;
 }
 
 /**
@@ -119,6 +194,33 @@ template <typename T>
 void BinaryTree<T>::printPaths(vector<vector<T> > &paths) const
 {
     // your code here
+    std::vector<T> v;
+    findPaths(root, v, paths);
+    int num = 0;
+    for (vector<vector<T>::iterator i = paths.begin(); i != paths.end(); i++) {
+        cout << "paths[" << num++ << "]: ";
+        for (vector<T>::iterator j = v.begin(); j != v.end(); j++) {
+            cout << paths[i][j] << " ";
+        }
+        cout << endl;
+    }
+    
+}
+
+template <typename T>
+void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths)
+{
+    //if (subRoot == NULL || subRoot->elem == -1) { return; }
+    if (subRoot == NULL) { return; }
+    v.push_back(subRoot->elem);
+    findPaths(subRoot->left, v, paths);
+    if (subRoot->left == NULL && subRoot->right == NULL) {
+        v.push_back(subRoot->elem);
+        //subRoot->elem = -1;
+        paths.push_back(v);
+        return;
+    }
+    findPaths(subRoot->right, v, paths);
 }
 
 /**
@@ -133,7 +235,18 @@ template <typename T>
 int BinaryTree<T>::sumDistances() const
 {
     // your code here
-    return -1;
+    int running_sum = 0;
+    int static total_sum = 0;
+    sumDistances(root, running_sum, total_sum);
+    return total_sum;
 }
 
+template <typename T>
+void BinaryTree<T>::sumDistances(Node * subRoot, int rsum, int static tsum)
+{
+    if (subRoot == NULL) { return; }
+    tsum += rsum;
+    if (subRoot->left != NULL) sumDistances(subRoot->left, rsum+1, tsum);
+    if (subRoot->right != NULL) sumDistances(subRoot->right, rsum+1, tsum);
+}
 
