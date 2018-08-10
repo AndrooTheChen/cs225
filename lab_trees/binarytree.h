@@ -87,7 +87,7 @@ class BinaryTree
     /**
      * @return The root of the binary tree
      */
-    Node* getRoot() const;  
+    Node* getRoot() const;
 
     /**
      * This lab deals with the following six helper functions:
@@ -210,11 +210,11 @@ class BinaryTree
      */
     void inOrder(Node *subRoot, vector<T>& treeVector);
 
-    void mirror(Node * subNode);
-    bool isOrderedIterative(Node * subRoot) const;
-    bool isOrderedRecursive(Node * subRoot) const;
-    void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths);
-    void BinaryTree<T>::sumDistances(Node * subRoot, int rsum, int tsum);
+    void mirrorHelper(Node * subNode);
+    bool isOrderedIterativeHelper(Node * subRoot) const;
+    bool isOrderedRecursiveHelper(Node * subRoot) const;
+    void findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths) const;
+    void sumDistancesHelper(Node * subRoot, int rsum, int tsum) const;
 
     Node* root;
 };

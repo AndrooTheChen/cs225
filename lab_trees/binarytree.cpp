@@ -79,15 +79,15 @@ template <typename T>
 void BinaryTree<T>::mirror()
 {
     //your code here
-    mirror(root);
+    mirrorHelper(root);
 }
 
 template <typename T>
-void BinaryTree<T>::mirror(Node * subNode)
+void BinaryTree<T>::mirrorHelper(Node * subNode)
 {
     if (subNode == NULL) { return; }
-    mirror(subNode->left);
-    mirror(subNode->right);
+    mirrorHelper(subNode->left);
+    mirrorHelper(subNode->right);
 
     // swap
     if (subNode->left == NULL && subNode->right == NULL) { return; }
@@ -114,11 +114,11 @@ template <typename T>
 bool BinaryTree<T>::isOrderedIterative() const
 {
     // your code here
-    return false;
+    return isOrderedIterativeHelper(root);
 }
 
 template <typename T>
-bool BinaryTree::isOrderedIterative(Node * subRoot) const
+bool BinaryTree<T>::isOrderedIterativeHelper(Node * subRoot) const
 {
     std::vector<T> v;
     std::stack<Node *> s;
@@ -138,7 +138,7 @@ bool BinaryTree::isOrderedIterative(Node * subRoot) const
     }
 
     int i = 0;
-    for (int ctr = 0; ctr < v.size(); ctr++) {
+    for (unsigned ctr = 0; ctr < v.size(); ctr++) {
         if (v[i++] > v[ctr]) { return false; }
     }
 
@@ -156,28 +156,28 @@ bool BinaryTree<T>::isOrderedRecursive() const
 {
 
     // your code here
-    return isOrderedRecursive(root);
+    return isOrderedRecursiveHelper(root);
 }
 
 template <typename T>
-bool BinaryTree::isOrderedRecursive(Node * subRoot) const
+bool BinaryTree<T>::isOrderedRecursiveHelper(Node * subRoot) const
 {
     bool isOrdered = true;
     if (subRoot == NULL) { return true; }
 
-    isOrdered = isOrderedRecursive(subRoot->left);
+    isOrdered = isOrderedRecursiveHelper(subRoot->left);
 
     if (subRoot->left == NULL && subRoot->right == NULL) { return true; }
     else if (subRoot->left == NULL) {
-        return (subRoot->right.elem <= this->elem) { return false; }
+        if (subRoot->right->elem <= subRoot->elem) { return false; }
     } else if (subRoot->right == NULL) {
-        if (subRoot->left.elem >= this->elem) { return false; }
+        if (subRoot->left->elem >= subRoot->elem) { return false; }
     } else {
-        if (subRoot->left.elem >= this->elem) { return false; }
-        if (subRoot->right.elem <= this->elem) { return false; }
+        if (subRoot->left->elem >= subRoot->elem) { return false; }
+        if (subRoot->right->elem <= subRoot->elem) { return false; }
     }
- 
-    isOrdered = isOrderedRecursive(subRoot->right);
+
+    isOrdered = isOrderedRecursiveHelper(subRoot->right);
 
     return isOrdered;
 }
@@ -196,19 +196,10 @@ void BinaryTree<T>::printPaths(vector<vector<T> > &paths) const
     // your code here
     std::vector<T> v;
     findPaths(root, v, paths);
-    int num = 0;
-    for (vector<vector<T>::iterator i = paths.begin(); i != paths.end(); i++) {
-        cout << "paths[" << num++ << "]: ";
-        for (vector<T>::iterator j = v.begin(); j != v.end(); j++) {
-            cout << paths[i][j] << " ";
-        }
-        cout << endl;
-    }
-    
 }
 
 template <typename T>
-void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths)
+void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths) const
 {
     //if (subRoot == NULL || subRoot->elem == -1) { return; }
     if (subRoot == NULL) { return; }
@@ -237,16 +228,15 @@ int BinaryTree<T>::sumDistances() const
     // your code here
     int running_sum = 0;
     int static total_sum = 0;
-    sumDistances(root, running_sum, total_sum);
+    sumDistancesHelper(root, running_sum, total_sum);
     return total_sum;
 }
 
 template <typename T>
-void BinaryTree<T>::sumDistances(Node * subRoot, int rsum, int static tsum)
+void BinaryTree<T>::sumDistancesHelper(Node * subRoot, int rsum, int tsum) const
 {
     if (subRoot == NULL) { return; }
     tsum += rsum;
-    if (subRoot->left != NULL) sumDistances(subRoot->left, rsum+1, tsum);
-    if (subRoot->right != NULL) sumDistances(subRoot->right, rsum+1, tsum);
+    if (subRoot->left != NULL) sumDistancesHelper(subRoot->left, rsum+1, tsum);
+    if (subRoot->right != NULL) sumDistancesHelper(subRoot->right, rsum+1, tsum);
 }
-
