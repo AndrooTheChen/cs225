@@ -214,7 +214,7 @@ class BinaryTree
     bool isOrderedIterativeHelper(Node * subRoot) const;
     bool isOrderedRecursiveHelper(Node * subRoot) const;
     void findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths) const;
-    int sumDistancesHelper(Node * subRoot, int tsum) const;
+    int sumDistancesHelper(Node * subRoot, int curr, int tsum) const;
 
     Node* root;
 };
