@@ -126,7 +126,7 @@ bool BinaryTree<T>::isOrderedIterativeHelper(Node * subRoot) const
 
     s.push(curr);
     curr = curr->left;
-    while (curr != NULL && !s.empty()) {
+    while (curr != NULL || !s.empty()) {
         s.push(curr);
         curr = curr->left;
         while (curr == NULL && !s.empty()) {
@@ -138,8 +138,9 @@ bool BinaryTree<T>::isOrderedIterativeHelper(Node * subRoot) const
     }
 
     int i = 0;
-    for (unsigned ctr = 0; ctr < v.size(); ctr++) {
+    for (unsigned ctr = 1; ctr < v.size(); ctr++) {
         if (v[i++] > v[ctr]) { return false; }
+        //cout << v[ctr] << ' ';
     }
 
     return true;
