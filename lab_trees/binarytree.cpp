@@ -227,13 +227,13 @@ int BinaryTree<T>::sumDistances() const
     // your code here
     int tsum = 0;
     int curr = 0;
-    return sumDistancesHelper(root, curr tsum);
+    return sumDistancesHelper(root, curr, tsum);
 }
 
 template <typename T>
 int BinaryTree<T>::sumDistancesHelper(Node * subRoot, int curr, int tsum) const
 {
-    if (subRoot->left != NULL) tsum = (subRoot->left, curr+1, tsum);
-    if (subRoot->right != NULL) tsum = (subRoot->right, curr+1, tsum);
+    if (subRoot->left != NULL) tsum = sumDistancesHelper(subRoot->left, curr+1, tsum);
+    if (subRoot->right != NULL) tsum = sumDistancesHelper(subRoot->right, curr+1, tsum);
     return tsum+curr;
 }
