@@ -147,10 +147,10 @@ void List<T>::reverseNth(int n) {
   ListNode * ptr = head_;
   ListNode * nptr;
 
-  while (ptr != NULL || ptr != tail_) {
+  while (ptr != NULL && ptr != tail_) {
     nptr = ptr;
-    for (int i = 0; i < n; i++) {
-      if (nptr == tail_) { break; }
+    for (int i = 1; i < n; i++) {
+      if (nptr == NULL || nptr == tail_) { break; }
       nptr = nptr->next;
     }
     reverse(ptr, nptr);
