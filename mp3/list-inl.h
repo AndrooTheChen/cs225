@@ -110,7 +110,7 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   ptr->next = tempEnd;
 
   ptr = ptr->prev;    // increment pointer
-  while(ptr != endPoint->prev) {
+  while(ptr != endPoint) {
     temp = ptr->next;
     ptr->next = ptr->prev;
     ptr->prev = temp;
@@ -120,6 +120,10 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   // end node
   ptr->next = ptr->prev;
   ptr->prev = tempStart;
+
+  temp = startPoint;
+  startPoint = endPoint;
+  endPoint = temp;
 }
 
 /**
