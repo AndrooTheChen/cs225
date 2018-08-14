@@ -200,7 +200,7 @@ void BinaryTree<T>::printPaths(vector<vector<T> > &paths) const
 }
 
 template <typename T>
-void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T>> &paths) const
+void BinaryTree<T>::findPaths(Node * subRoot, vector<T> &v, vector<vector<T> > &paths) const
 {
     v.push_back(subRoot->elem);
     if (subRoot->left != NULL) findPaths(subRoot->left, v, paths);
