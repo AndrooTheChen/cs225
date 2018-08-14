@@ -144,17 +144,20 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
 template <class T>
 void List<T>::reverseNth(int n) {
   /// @todo Graded in MP3.1
-  ListNode * endPt;
-  if (n >= length_) {
-    endPt = tail_;
-  } else {
-    endPt = head_;
-    for (int ctr = 0; ctr < n; ctr++) {
-      endPt = endPt->next;
+  ListNode * ptr = head_;
+  ListNode * nptr;
+
+  while (ptr != NULL || ptr != tail_) {
+    nptr = ptr;
+    for (int i = 0; i < n; i++) {
+      if (nptr == tail_) { break; }
+      nptr = nptr->next;
     }
+    reverse(ptr, nptr);
+
+    ptr = nptr->next;
   }
-  
-  reverse(head_, endPt);
+
 }
 
 /**
