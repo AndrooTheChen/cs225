@@ -90,7 +90,7 @@ class InorderTraversal : public TreeTraversal<T> {
       return topNode;
     }
 
-    void addStack(BinaryTree<T>::Node * subRoot) {
+    void addStack(typename BinaryTree<T>::Node * subRoot) {
       if (subRoot->right != NULL) addStack(subRoot->right);
       stack.push(subRoot);
       if (subRoot->left != NULL) addStack(subRoot->left);
