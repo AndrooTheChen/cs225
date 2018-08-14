@@ -20,14 +20,22 @@ List<T>::~List() {
 template <class T>
 void List<T>::clear() {
   /// @todo Graded in MP3.1
-  ListNode * del = head_;
   ListNode * temp;
-  while (length_ > 0) {
-    temp = del->next;
-    delete del;
-    del = temp;
-    length_--;
+  if (head_ != NULL) { 
+    while (head_ != NULL) {
+      temp = head_;
+      head_ = head_->next;
+      delete temp;
+    }
+  } else if (tail_ != NULL) {
+    while (tail_ != NULL) {
+      temp = tail_;
+      tail_ = tail_->next;
+      delete temp;
+    }
   }
+
+  length_ = 0;
 }
 
 /**
@@ -100,6 +108,7 @@ void List<T>::reverse() {
 template <class T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.1
+  if (startPoint == NULL || endPoint == NULL) { return; }
   ListNode * temp;
   ListNode * tempEnd = endPoint->next;
   ListNode * tempStart = startPoint->prev;
