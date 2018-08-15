@@ -109,9 +109,12 @@ template <class T>
 void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   /// @todo Graded in MP3.1
   if (startPoint == NULL || endPoint == NULL) { return; }
-  ListNode * temp;
-  ListNode * tempEnd = endPoint->next;
-  ListNode * tempStart = startPoint->prev;
+  ListNode * temp = new ListNode();
+  ListNode * tempEnd = new ListNode();
+  ListNode * tempStart = new ListNode();
+
+  tempEnd = endPoint->next;
+  tempStart = startPoint->prev;
   
   // first node
   ListNode * ptr = startPoint;
@@ -133,6 +136,10 @@ void List<T>::reverse(ListNode *& startPoint, ListNode *& endPoint) {
   temp = startPoint;
   startPoint = endPoint;
   endPoint = temp;
+
+  delete temp;
+  delete tempEnd;
+  delete tempStart;
 }
 
 /**
