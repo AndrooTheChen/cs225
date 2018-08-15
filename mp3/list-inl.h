@@ -151,13 +151,13 @@ void List<T>::reverseNth(int n) {
   
   //while (ptr != NULL && ptr != tail_) {
     nptr = ptr;
-    for (int i = 1; i < n; i++) {
+    for (int i = 0; i < n; i++) {
       if (nptr == NULL || nptr == tail_) { break; }
       nptr = nptr->next;
     }
     reverse(ptr, nptr);
 
-    ptr = nptr->next;
+    //ptr = nptr->next;
   //}
 
 }
